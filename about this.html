@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Project | Kelompok 3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@200;400;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            background-image: radial-gradient(circle at center, #001d3d 0%, #000 90%);
+            min-height: 100vh;
+        }
+
+        /* Tombol Back */
+        .btn-back {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            color: #4cc9f0;
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            border: 1px solid #4cc9f0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: 0.3s;
+            z-index: 100;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-back:hover { background: #4cc9f0; color: #000; box-shadow: 0 0 20px #4cc9f0; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        header { text-align: center; margin-bottom: 60px; }
+        header h1 {
+            font-family: 'Orbitron';
+            font-size: 2.5rem;
+            letter-spacing: 8px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        header span { color: #4cc9f0; font-family: 'Orbitron'; letter-spacing: 5px; font-size: 0.8rem; }
+
+        /* --- PESAN & KESAN (DI ATAS) --- */
+        .feedback-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 100px;
+        }
+
+        .feedback-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 20px;
+            border-top: 2px solid #4cc9f0;
+            border-bottom: 2px solid #4cc9f0;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feedback-box:hover { background: rgba(76, 201, 240, 0.05); }
+
+        .feedback-box i { font-size: 2rem; color: #4cc9f0; margin-bottom: 20px; display: block; }
+        .feedback-box h2 { font-family: 'Orbitron'; font-size: 1.2rem; color: #fff; margin-bottom: 15px; letter-spacing: 3px; }
+        .feedback-box p { font-size: 0.95rem; line-height: 1.8; color: #ccc; font-style: italic; }
+
+        /* --- ANGGOTA (5 ORANG) --- */
+        .team-title {
+            text-align: center;
+            font-family: 'Orbitron';
+            font-size: 1.5rem;
+            color: #4cc9f0;
+            margin-bottom: 50px;
+            letter-spacing: 5px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border-left: 3px solid #4cc9f0; /* Garis vertikal biru */
+            transition: 0.4s;
+        }
+
+        .member-card:hover { transform: translateY(-10px); background: rgba(76, 201, 240, 0.1); }
+
+        .photo-frame {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+            border: 2px solid #4cc9f0;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #111;
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.3);
+        }
+
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        .member-card h3 { font-family: 'Orbitron'; font-size: 0.9rem; margin-bottom: 5px; color: #fff; }
+        .member-card p { font-size: 0.75rem; color: #4cc9f0; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="btn-back">← HOME</a>
+
+    <div class="container">
+        <header>
+            <span>PROJECT OVERVIEW</span>
+            <h1>ABOUT THIS PROJECT</h1>
+        </header>
+
+        <div class="feedback-section">
+            <div class="feedback-box">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h2>PESAN</h2>
+                <p>"Jelajahi setiap sudut alam semesta dengan rasa ingin tahu yang tinggi. Semoga Q-DSS Cosmos menjadi jendela pengetahuan baru bagi kita semua."</p>
+            </div>
+            <div class="feedback-box">
+                <i class="fa-solid fa-star"></i>
+                <h2>KESAN</h2>
+                <p>"Perjalanan membangun web ini bersama Kelompok 3 sangat luar biasa. Kami belajar bahwa kolaborasi adalah kunci untuk menciptakan sesuatu yang hebat."</p>
+            </div>
+        </div>
+
+        <h2 class="team-title">OUR TEAM</h2>
+        
+        <div class="team-grid">
+            <div class="member-card">
+                <div class="photo-frame">
+                    <img src="foto1.jpg" alt="Anggota 1">
+                </div>
+                <h3>NAMA ANGGOTA 1</h3>
+                <p>Project Leader</p>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-frame">
+                    <img src="foto2.jpg" alt="Anggota 2">
+                </div>
+                <h3>NAMA ANGGOTA 2</h3>
+                <p>UI Designer</p>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-frame">
+                    <img src="foto3.jpg" alt="Anggota 3">
+                </div>
+                <h3>NAMA ANGGOTA 3</h3>
+                <p>Web Developer</p>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-frame">
+                    <img src="foto4.jpg" alt="Anggota 4">
+                </div>
+                <h3>NAMA ANGGOTA 4</h3>
+                <p>Researcher</p>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-frame">
+                    <img src="foto5.jpg" alt="Anggota 5">
+                </div>
+                <h3>NAMA ANGGOTA 5</h3>
+                <p>Content Writer</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

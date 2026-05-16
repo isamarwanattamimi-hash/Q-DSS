@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTROSPACE | Fun Facts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Poppins:wght@300;400&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at center, #001d3d 0%, #000 85%);
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.4; z-index: -1;
+        }
+
+        .btn-back {
+            position: fixed; top: 20px; left: 20px;
+            color: #4cc9f0; text-decoration: none;
+            font-family: 'Orbitron'; border: 2px solid #4cc9f0;
+            padding: 10px 20px; border-radius: 5px;
+            background: rgba(0,0,0,0.8); transition: 0.3s; z-index: 10000;
+        }
+        .btn-back:hover { background: #4cc9f0; color: #000; box-shadow: 0 0 20px #4cc9f0; }
+
+        h1 {
+            font-family: 'Orbitron';
+            font-size: 2.5rem;
+            color: #4cc9f0;
+            margin-bottom: 50px;
+            text-align: center;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.6);
+        }
+
+        /* GRID UNTUK 3 FUN FACT */
+        .fact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 90%;
+            max-width: 1100px;
+            padding: 20px;
+        }
+
+        .fact-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.4s;
+            position: relative;
+            /* Garis Vertikal di Kanan Kiri sesuai keinginanmu tadi */
+            border-left: 3px solid #4cc9f0;
+            border-right: 3px solid #4cc9f0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .fact-card:hover {
+            transform: translateY(-15px);
+            background: rgba(76, 201, 240, 0.08);
+            box-shadow: 0 10px 30px rgba(76, 201, 240, 0.2);
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .fact-card h3 {
+            font-family: 'Orbitron';
+            color: #4cc9f0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .fact-card p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #ccc;
+        }
+
+        .fact-number {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #4cc9f0;
+            color: #000;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 0 15px #4cc9f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+    <a href="index.html" class="btn-back">← HOME</a>
+
+    <h1>SPACE FACTS</h1>
+
+    <div class="fact-container">
+        
+        <!-- FACT 1 -->
+        <div class="fact-card">
+            <span class="fact-number">01</span>
+            <span class="fact-icon">☀️</span>
+            <h3>Matahari tidak benar-benar diam</h3>
+            <p>Walaupun jadi pusat Tata Surya, Matahari sebenarnya sedang melaju mengelilingi galaksi Bima Sakti dengan kecepatan sekitar 828.000 km/jam. Jadi seluruh Tata Surya ikut “jalan bareng”.</p>
+        </div>
+
+        <!-- FACT 2 -->
+        <div class="fact-card">
+            <span class="fact-number">02</span>
+            <span class="fact-icon">🌑</span>
+            <h3>Bulan menjauh dari Bumi setiap tahun</h3>
+            <p>Bulan menjauh sekitar 3,8 cm per tahun dari Bumi. Dulu, Bulan terlihat jauh lebih besar di langit!</p>
+        </div>
+
+        <!-- FACT 3 -->
+        <div class="fact-card">
+            <span class="fact-number">03</span>
+            <span class="fact-icon">☄️</span>
+            <h3>Ada hujan berlian di Uranus dan Neptunus</h3>
+            <p>Di Uranus dan Neptunus, tekanan ekstrem bisa mengubah karbon jadi berlian yang “jatuh” seperti hujan ke dalam planet.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
