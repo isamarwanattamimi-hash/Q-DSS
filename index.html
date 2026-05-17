@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos | Jelajah Tata Surya</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Video Background */
+        .video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 0;
+        }
+
+        /* Overlay Sidebar Aktif */
+        .body-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+        }
+        .body-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Nav */
+        nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 8%;
+        }
+
+        .logo {
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+        }
+
+        .logo span { color: #4cc9f0; }
+
+        .btn-more {
+            background: none;
+            border: 1px solid #4cc9f0;
+            color: #4cc9f0;
+            padding: 8px 20px;
+            font-family: 'Orbitron';
+            cursor: pointer;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .btn-more:hover {
+            background: #4cc9f0;
+            color: #000;
+            box-shadow: 0 0 15px #4cc9f0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; 
+            width: 280px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            transition: 0.4s ease-in-out;
+            padding: 100px 30px;
+            border-left: 4px solid #4cc9f0;
+        }
+
+        .sidebar.active { right: 0; }
+
+        .sidebar ul { list-style: none; }
+
+        .sidebar ul li { margin-bottom: 30px; }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-family: 'Orbitron';
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .sidebar ul li a:hover {
+            opacity: 1;
+            color: #4cc9f0;
+            padding-left: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: #4cc9f0;
+            font-family: 'Orbitron';
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 10;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+        }
+
+        /* Content Box tanpa garis vertikal */
+        .content-box {
+            padding-left: 0; 
+        }
+
+        h1 {
+            font-family: 'Orbitron';
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            letter-spacing: 15px;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            max-width: 600px;
+            font-size: 1.1rem;
+            font-weight: 200;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: #e0e0e0;
+        }
+
+        /* Tombol */
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 500px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            transition: 0.4s;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-wide {
+            grid-column: span 2;
+            background: #4cc9f0;
+            color: #000;
+            font-weight: 700;
+            border: none;
+            margin-bottom: 5px;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 20px #4cc9f0;
+            background: #4cc9f0;
+            color: #000;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-wrapper">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="videoplayback (2).mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="body-overlay" id="bodyOverlay" onclick="toggleSidebar()"></div>
+
+    <nav>
+        <div class="logo">Q-<span>DSS</span></div>
+        <button class="btn-more" onclick="toggleSidebar()">MORE</button>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">CLOSE [X]</div>
+        <ul>
+            <li><a href="contactus.html">Contact Us</a></li>
+            <li><a href="library.html">Library</a></li>
+            <li><a href="about this.html">About This</a></li>
+        </ul>
+    </div>
+
+    <main class="hero">
+        <div class="content-box">
+            <h1>UNIVERSE</h1>
+            <p>Saksikan keajaiban tak terbatas dari galaksi yang jauh. Mulailah perjalanan Anda melintasi ruang dan waktu.</p>
+            
+            <div class="btn-container">
+                <a href="pembahasan.html" class="btn btn-wide">MULAI JELAJAH</a>
+                <a href="funfact.html" class="btn">FUN FACT</a>
+                <a href="ayat.html" class="btn">AYAT KAUNIAH</a>
+                <a href="kesimpulan.html" class="btn btn-wide" style="margin-top: 5px;">KESIMPULAN</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+            document.getElementById("bodyOverlay").classList.toggle("active");
+        }
+    </script>
+
+</body>
+</html>
