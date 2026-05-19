@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTROSPACE | Tata Surya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Poppins:wght@300;400&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(circle at center, #001d3d 0%, #000 85%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- WARNING MODE PORTRAIT (HP) --- */
+        #rotate-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 99999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #rotate-warning i {
+            font-size: 60px;
+            color: #4cc9f0;
+            margin-bottom: 25px;
+            animation: rotatePhone 2s ease-in-out infinite;
+        }
+
+        @keyframes rotatePhone {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @media (orientation: portrait) {
+            #rotate-warning { display: flex; }
+        }
+
+        /* --- BACKGROUND STARS --- */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .btn-back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #4cc9f0;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            border: 1px solid #4cc9f0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(0,0,0,0.7);
+            transition: 0.3s;
+            z-index: 10000;
+        }
+        .btn-back:hover { background: #4cc9f0; color: #000; box-shadow: 0 0 15px #4cc9f0; }
+
+        /* --- SOLAR SYSTEM ENGINE --- */
+        .solar-system {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            transform: rotateX(75deg) translateY(-30px);
+        }
+
+        .sun {
+            position: absolute;
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #ffcc00 20%, #ff8800 60%, #ff4500 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #ff8800, 0 0 120px rgba(255, 136, 0, 0.4);
+            transform: rotateX(-75deg);
+            z-index: 10;
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            animation: rotate-orbit linear infinite;
+        }
+
+        @keyframes rotate-orbit {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        .planet {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: -10px -10px 20px rgba(0,0,0,0.8) inset, 0 0 10px rgba(76, 201, 240, 0.2);
+            animation: counter-rotate linear infinite;
+        }
+
+        @keyframes counter-rotate {
+            from { transform: translate(-50%, -50%) rotateZ(0deg) rotateX(-75deg); }
+            to { transform: translate(-50%, -50%) rotateZ(-360deg) rotateX(-75deg); }
+        }
+
+        /* Saturn Ring Special */
+        .saturn-container {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex; justify-content: center; align-items: center;
+            transform-style: preserve-3d;
+            animation: counter-rotate linear infinite;
+        }
+        .saturn-body { 
+            width: 40px; height: 40px; 
+            background: radial-gradient(circle at 30% 30%, #f4e2ad, #b08d57);
+            border-radius: 50%; 
+            box-shadow: -5px -5px 10px rgba(0,0,0,0.7) inset;
+        }
+        .saturn-ring { 
+            position: absolute; width: 85px; height: 85px; 
+            border: 10px solid rgba(191, 173, 111, 0.4); 
+            border-radius: 50%; transform: rotateX(80deg); 
+        }
+
+        /* --- PLANET GALLERY --- */
+        .planet-gallery {
+            position: fixed;
+            bottom: 20px;
+            width: 95%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            z-index: 9000;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .planet-gallery::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .gallery-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            min-width: 90px;
+        }
+
+        .gallery-item:hover { transform: translateY(-10px); }
+
+        .gallery-img {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            border: 2px solid rgba(76, 201, 240, 0.5);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-item span { 
+            font-size: 0.65rem; 
+            font-family: 'Orbitron'; 
+            color: #4cc9f0; 
+            font-weight: bold;
+        }
+
+        /* Orbit Sizes & Speeds */
+        .mer-o { width: 160px; height: 160px; animation-duration: 6s; }
+        .ven-o { width: 220px; height: 220px; animation-duration: 9s; }
+        .ear-o { width: 290px; height: 290px; animation-duration: 12s; }
+        .mar-o { width: 360px; height: 360px; animation-duration: 16s; }
+        .jup-o { width: 480px; height: 480px; animation-duration: 25s; }
+        .sat-o { width: 620px; height: 620px; animation-duration: 35s; }
+        .ura-o { width: 740px; height: 740px; animation-duration: 50s; }
+        .nep-o { width: 850px; height: 850px; animation-duration: 70s; }
+
+        /* --- INFO CARD POPUP --- */
+        .info-card {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 350px; background: rgba(0,0,0,0.95); border: 2px solid #4cc9f0;
+            padding: 25px; border-radius: 15px; display: none; z-index: 11000;
+            box-shadow: 0 0 40px rgba(76, 201, 240, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        #p-desc {
+            font-size: 0.85rem; 
+            line-height: 1.6; 
+            margin-bottom: 20px; 
+            color: #ddd;
+            white-space: pre-line;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="rotate-warning">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <h2 style="font-family:'Orbitron'; color: white;">HARAP PUTAR LAYAR</h2>
+        <p style="color: #4cc9f0; font-size: 0.8rem; margin-top: 10px; font-family: 'Poppins';">Web ini didesain terbaik untuk mode Landscape</p>
+    </div>
+
+    <div class="stars"></div>
+
+    <a href="index.html" class="btn-back">← HOME</a>
+
+    <div class="solar-system">
+        <div class="sun"></div>
+        
+        <div class="orbit mer-o"><div class="planet" style="width:14px; height:14px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg'); animation-duration:6s;"></div></div>
+        <div class="orbit ven-o"><div class="planet" style="width:22px; height:22px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg'); animation-duration:9s;"></div></div>
+        <div class="orbit ear-o"><div class="planet" style="width:24px; height:24px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg'); animation-duration:12s;"></div></div>
+        <div class="orbit mar-o"><div class="planet" style="width:18px; height:18px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg'); animation-duration:16s;"></div></div>
+        <div class="orbit jup-o"><div class="planet" style="width:55px; height:55px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg'); animation-duration:25s;"></div></div>
+        <div class="orbit sat-o"><div class="saturn-container" style="animation-duration:35s;"><div class="saturn-body"></div><div class="saturn-ring"></div></div></div>
+        <div class="orbit ura-o"><div class="planet" style="width:32px; height:32px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg'); animation-duration:50s;"></div></div>
+        <div class="orbit nep-o"><div class="planet" style="width:30px; height:30px; background-image:url('https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg'); animation-duration:70s;"></div></div>
+    </div>
+
+    <div class="planet-gallery">
+        <div class="gallery-item" onclick="show('MERKURIUS', '• Si Kecil yang Ekstrem: Panas membakar di siang hari, beku total di malam hari.\n• Wajah Kawah: Permukaannya penuh bekas meteor, mirip Bulan.\n• Tanpa Pelindung: Tidak memiliki atmosfer, udara, ataupun cuaca.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg')"></div>
+            <span>MERKURIUS</span>
+        </div>
+        <div class="gallery-item" onclick="show('VENUS', '• Neraka Tata Surya: Planet terpanas karena atmosfer tebal memerangkap panas matahari.\n• Rotasi Terbalik: Berputar ke arah berlawanan, Matahari terbit dari barat.\n• Tekanan Dahsyat: Tekanan udaranya sangat berat, mampu menghancurkan baja.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg')"></div>
+            <span>VENUS</span>
+        </div>
+        <div class="gallery-item" onclick="show('BUMI', '• Planet Air: Satu-satunya dunia dengan air cair untuk menunjang kehidupan.\n• Atmosfer Hidup: Kaya oksigen dan memiliki lapisan pelindung radiasi.\n• Rumah Dinamis: Memiliki tanah yang terus bergerak menciptakan daratan baru.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg')"></div>
+            <span>BUMI</span>
+        </div>
+        <div class="gallery-item" onclick="show('MARS', '• Padang Berkarat: Dikenal sebagai Planet Merah karena debu besi yang berkarat.\n• Raksasa Geologi: Memiliki gunung api tertinggi dan lembah terdalam di tata surya.\n• Kutub Beku: Memiliki lapisan es di utara dan selatan seperti Bumi.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg')"></div>
+            <span>MARS</span>
+        </div>
+        <div class="gallery-item" onclick="show('JUPITER', '• Raja Planet: Planet gas terbesar yang sanggup menampung ribuan Bumi.\n• Badai Abadi: Memiliki bintik merah raksasa, badai yang ada sejak ratusan tahun.\n• Sistem Bulan: Memiliki lebih dari 90 bulan pengiring di sekitarnya.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg')"></div>
+            <span>JUPITER</span>
+        </div>
+        <div class="gallery-item" onclick="show('SATURNUS', '• Mahkota Cincin: Memiliki cincin megah dari triliunan es dan batu.\n• Si Ringan: Planet yang sangat ringan, secara teori bisa mengapung di air.\n• Angin Supersonik: Kecepatan anginnya berkali-kali lipat badai terkuat Bumi.')">
+            <div class="gallery-img" style="background-image:url('—Pngtree—realistic\ saturn\ planet_20948452.png')"></div>
+            <span>SATURNUS</span>
+        </div>
+        <div class="gallery-item" onclick="show('URANUS', '• Planet Rebahan: Sumbu miring yang membuatnya menggelinding di orbit.\n• Raksasa Es: Didominasi es kental metana, amonia, dan air cair.\n• Dunia Biru Pucat: Gas metana menyerap warna merah dan memantulkan biru.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg')"></div>
+            <span>URANUS</span>
+        </div>
+        <div class="gallery-item" onclick="show('NEPTUNUS', '• Gudang Badai: Planet paling berangin dengan kecepatan angin 2.000 km/jam.\n• Biru Kelam: Warnanya lebih pekat dari Uranus karena atmosfer dinginnya.\n• Penghuni Tepian: Terjauh dari Matahari, butuh 165 tahun untuk satu orbit.')">
+            <div class="gallery-img" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg')"></div>
+            <span>NEPTUNUS</span>
+        </div>
+    </div>
+
+    <div id="card" class="info-card">
+        <h2 id="p-name" style="font-family:'Orbitron'; color:#4cc9f0; margin-bottom:15px; text-align:center;">PLANET</h2>
+        <p id="p-desc"></p>
+        <div style="text-align: center;">
+            <button onclick="document.getElementById('card').style.display='none'" style="background:#4cc9f0; border:none; padding:10px 25px; border-radius:5px; cursor:pointer; font-weight:bold; font-family:'Orbitron';">TUTUP</button>
+        </div>
+    </div>
+
+    <script>
+        function show(name, desc) {
+            document.getElementById('p-name').innerText = name;
+            document.getElementById('p-desc').innerText = desc;
+            document.getElementById('card').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
