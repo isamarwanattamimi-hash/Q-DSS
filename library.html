@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Library | Detail Seluruh Planet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&display=swap');
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            scroll-behavior: smooth; 
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            background-image: radial-gradient(circle at top right, #001d3d 0%, #000 60%);
+            overflow-x: hidden;
+            
+            /* AKTIVASI SCROLL SNAP PADA BODY */
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+            overflow-y: scroll;
+        }
+
+        /* Navigasi Samping (Garis Vertikal Khas Q-DSS) */
+        .timeline-line {
+            position: fixed;
+            top: 0;
+            left: 50px;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #4cc9f0, #4cc9f0, transparent);
+            z-index: 1;
+        }
+
+        .btn-back {
+            position: fixed;
+            top: 30px;
+            left: 80px;
+            z-index: 100;
+            color: #4cc9f0;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            border: 1px solid #4cc9f0;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-back:hover { 
+            background: #4cc9f0; 
+            color: #000; 
+            box-shadow: 0 0 20px #4cc9f0; 
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-left: 80px;
+            
+            /* LOCK HEADER SAAT SCROLL */
+            scroll-snap-align: start;
+        }
+
+        header h1 {
+            font-family: 'Orbitron';
+            font-size: clamp(3rem, 8vw, 5rem);
+            letter-spacing: 15px;
+            background: linear-gradient(to bottom, #fff, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        /* Container Planet */
+        .planet-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 10% 100px 150px;
+            position: relative;
+            border-bottom: 1px solid rgba(76, 201, 240, 0.05);
+            
+            /* LOCK SETIAP SECTION PLANET SAAT SCROLL */
+            scroll-snap-align: start;
+        }
+
+        .planet-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .planet-img {
+            flex: 1;
+            max-width: 400px;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 30px rgba(76, 201, 240, 0.25));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .planet-info { flex: 1.5; }
+
+        .planet-info h2 {
+            font-family: 'Orbitron';
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #4cc9f0;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .planet-info p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #ccc;
+            text-align: justify;
+            margin-bottom: 30px;
+            font-weight: 200;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .spec-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-left: 3px solid #4cc9f0;
+            border-radius: 0 8px 8px 0;
+            backdrop-filter: blur(2px);
+        }
+
+        .spec-item label {
+            display: block;
+            font-family: 'Orbitron';
+            font-size: 0.65rem;
+            color: #4cc9f0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .spec-item span { font-weight: 600; font-size: 0.85rem; color: #fff; }
+
+        @media (max-width: 900px) {
+            body { scroll-snap-type: none; } 
+            .planet-content { flex-direction: column; text-align: center; gap: 30px; }
+            .planet-section { padding: 120px 5% 60px 5%; height: auto; min-height: auto; }
+            header { padding-left: 0; }
+            .timeline-line { left: 20px; }
+            .btn-back { left: 40px; top: 20px; padding: 8px 15px; }
+            .planet-img { max-width: 250px; }
+            .planet-info p { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="timeline-line"></div>
+    <a href="index.html" class="btn-back">← KEMBALI</a>
+
+    <header>
+        <h1>LIBRARY</h1>
+        <p style="font-family: 'Orbitron'; font-size: 0.8rem; color: #4cc9f0; letter-spacing: 5px;">ENCYCLOPEDIA OF PLANETS</p>
+    </header>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg" alt="Merkurius" class="planet-img">
+            <div class="planet-info">
+                <h2>MERKURIUS</h2>
+                <p>Merkurius merupakan dunia terkecil di tata surya kita sekaligus yang paling dekat dengan Matahari. Akibat jaraknya yang luar biasa dekat, planet terrestrial berbatu ini tidak memiliki atmosfer yang signifikan untuk mempertahankan atau meratakan suhu di permukaannya. Fenomena ini menciptakan kontras termal paling ekstrem di sistem tata surya: sisi yang menghadap Matahari akan terpanggang hebat hingga mencapai ratusan derajat, sementara sisi gelap yang membelakangi Matahari langsung kehilangan panas ke ruang hampa dan membeku seketika.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>57,9 Juta km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>4.879 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>59 Hari / 88 Hari</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>Tidak ada / -173°C s/d 427°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="Gemini_Generated_Image_5krsal5krsal5krs(1).png" alt="Venus" class="planet-img">
+            <div class="planet-info">
+                <h2>VENUS</h2>
+                <p>Meskipun berada lebih jauh dari Matahari dibanding Merkurius, Venus memegang predikat sebagai planet paling panas di tata surya. Hal ini disebabkan oleh lapisan atmosfer super tebal yang didominasi gas karbon dioksida berselimutkan awan asam sulfat, menciptakan efek rumah kaca tak terkendali yang mengurung panas Matahari selamanya. Selain tekanan permukaannya yang mampu menghancurkan baja, Venus juga memiliki keunikan berupa gerak rotasi retrograde, di mana ia berputar sangat lambat searah jarum jam—berlawanan arah dengan mayoritas planet lain.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>108,2 Juta km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>12.104 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>243 Hari / 225 Hari</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>Tidak ada / 464°C (Rata-rata)</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" alt="Bumi" class="planet-img">
+            <div class="planet-info">
+                <h2>BUMI</h2>
+                <p>Bumi adalah oase kosmik unik dan satu-satunya planet yang terbukti menampung kehidupan di alam semesta. Terletak di zona laik huni (Goldilocks Zone), Bumi memiliki temperatur ideal yang memungkinkan air tetap bertahan dalam fase cair di permukaannya. Komposisi atmosfer yang kaya akan nitrogen dan oksigen, dikombinasikan dengan perisai medan magnet yang kuat (magnetosfer), bekerja aktif melindungi permukaan planet dari radiasi mematikan angin surya, menciptakan ekosistem sempurna bagi jutaan spesies makhluk hidup.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>149,6 Juta km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>12.742 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>24 Jam / 365,25 Hari</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>1 (Bulan / Luna) / 15°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg" alt="Mars" class="planet-img">
+            <div class="planet-info">
+                <h2>MARS</h2>
+                <p>Dijuluki sebagai Planet Merah, warna khas Mars berasal dari proses oksidasi besi atau karat yang menyelimuti seluruh permukaannya yang gersang. Planet ini menyimpan lanskap geologi yang luar biasa ekstrem, termasuk Olympus Mons yang merupakan gunung berapi perisai tertinggi di tata surya, serta Valles Marineris, sistem lembah raksasa yang jauh memotong kerak planet. Penelitian modern terus menemukan bukti-bukti bahwa miliaran tahun lalu Mars pernah memiliki atmosfer tebal dan air mengalir yang melimpah di permukaannya.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>227,9 Juta km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>6.779 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>24,6 Jam / 687 Hari</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>2 (Phobos & Deimos) / -63°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg" alt="Jupiter" class="planet-img">
+            <div class="planet-info">
+                <h2>JUPITER</h2>
+                <p>Jupiter adalah penguasa berwujud raksasa gas dengan massa yang melebihi gabungan seluruh planet lain di tata surya kita. Tanpa adanya permukaan padat yang nyata, planet ini tersusun atas pita-pita awan hidrogen dan helium berkecepatan tinggi yang saling bergesekan. Di atmosfernya terdapat sebuah fitur legendaris bernama Bintik Merah Besar (Great Red Spot), yakni badai siklon raksasa berukuran lebih besar dari Bumi yang telah mengamuk selama ratusan tahun. Gravitasi masifnya juga bertindak sebagai pelindung kosmik dalam menarik atau membelokkan asteroid berbahaya.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>778,5 Juta km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>139.820 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>9,9 Jam / 12 Tahun</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>95 Terkonfirmasi / -108°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg" alt="Saturnus" class="planet-img">
+            <div class="planet-info">
+                <h2>SATURNUS</h2>
+                <p>Saturnus merupakan perhiasan tercantik tata surya berkat sistem cincin konsentrisnya yang luar biasa besar dan megah, membentang ribuan kilometer dari lingkaran ekuatornya. Cincin transparan tersebut tersusun atas miliaran partikel kecil mulai dari debu mikroskopis hingga bongkahan es dan batuan berlapis air beku. Walau berukuran raksasa gas terbesar kedua, Saturnus memiliki densitas rata-rata yang sangat rendah, bahkan lebih ringan daripada air, yang berarti planet ini akan mengapung jika diletakkan di atas kolam raksasa.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>1,4 Miliar km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>116.460 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>10,7 Jam / 29 Tahun</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>146 Terkonfirmasi / -138°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg" alt="Uranus" class="planet-img">
+            <div class="planet-info">
+                <h2>URANUS</h2>
+                <p>Uranus dikategorikan sebagai raksasa es dingin yang diselimuti oleh lautan fluida tebal materi membeku seperti air, amonia, dan metana di atas inti berbatu kecilnya. Gas metana di bagian atas atmosfernya secara selektif menyerap cahaya merah dan memantulkan warna cyan-biru kehijauan yang khas. Keunikan terbesar Uranus terletak pada kemiringan poros rotasinya yang mencapai 98 derajat, membuatnya berputar menyamping secara ekstrem dan tampak seperti roda yang menggelinding mengitari orbit Matahari.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>2,9 Miliar km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>50.724 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>17,2 Jam / 84 Tahun</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>28 Terkonfirmasi / -195°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="planet-section">
+        <div class="planet-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg" alt="Neptunus" class="planet-img">
+            <div class="planet-info">
+                <h2>NEPTUNUS</h2>
+                <p>Neptunus merupakan planet terluar yang paling terpencil, dingin, dan gelap di sistem tata surya kita. Memiliki warna biru kobalt yang lebih pekat daripada Uranus, planet raksasa es ini menyimpan dinamika atmosfer yang luar biasa aktif dan ganas. Neptunus adalah rumah bagi badai-badai besar global serta hembusan angin supersonic terkuat di tata surya, yang kecepatannya sanggup menembus angka lebih dari 2.000 kilometer per jam, memecah kesunyian di tepi luar wilayah kekuasaan Matahari.</p>
+                <div class="spec-grid">
+                    <div class="spec-item"><label>JARAK MATAHARI</label><span>4,5 Miliar km</span></div>
+                    <div class="spec-item"><label>DIAMETER</label><span>49.244 km</span></div>
+                    <div class="spec-item"><label>ROTASI / REVOLUSI</label><span>16,1 Jam / 165 Tahun</span></div>
+                    <div class="spec-item"><label>SATELIT ALAMI / SUHU</label><span>16 Terkonfirmasi / -201°C</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

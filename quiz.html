@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-DSS | Evaluasi Kosmik</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(circle at center, #001d3d 0%, #000 90%);
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        /* --- BACKGROUND STARS --- */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        h2.main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #4cc9f0;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(76, 201, 240, 0.6);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* --- QUIZ CONTAINER --- */
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(76, 201, 240, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 35px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(76, 201, 240, 0.03);
+            text-align: center;
+        }
+
+        .question-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #4cc9f0;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 60px;
+            text-align: left;
+        }
+
+        /* --- OPTIONS BUTTONS --- */
+        .options-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 20px;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s ease;
+            width: 100%;
+            outline: none;
+        }
+
+        .option-btn:hover {
+            background: rgba(76, 201, 240, 0.1);
+            border-color: #4cc9f0;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* --- RESULT SCREEN --- */
+        .result-screen {
+            display: none;
+        }
+
+        .score-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #4cc9f0;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.6);
+        }
+
+        /* --- REVIEW AREA --- */
+        .review-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: #4cc9f0;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(76, 201, 240, 0.3);
+            padding-bottom: 8px;
+        }
+
+        .review-item {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ccc;
+        }
+
+        .review-item.correct {
+            border-left-color: #2ec4b6;
+        }
+
+        .review-item.wrong {
+            border-left-color: #e63946;
+        }
+
+        .review-q {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .review-ans {
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .text-correct { color: #2ec4b6; font-weight: 500; }
+        .text-wrong { color: #e63946; font-weight: 500; }
+
+        /* --- ACTION BUTTONS --- */
+        .btn-action {
+            display: inline-block;
+            color: #4cc9f0;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 1px solid #4cc9f0;
+            padding: 12px 35px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            transition: 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.2);
+        }
+
+        .btn-action:hover { 
+            background: #4cc9f0; 
+            color: #000; 
+            box-shadow: 0 0 20px #4cc9f0;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <h2 class="main-title">Kuis Evaluasi Q-DSS</h2>
+
+    <div class="quiz-container">
+        <div id="quiz-box">
+            <div class="question-number" id="q-num">PERTANYAAN 1 DARI 10</div>
+            <div class="question-text" id="q-text">Loading pertanyaan...</div>
+            
+            <div class="options-wrapper" id="options-container">
+                </div>
+        </div>
+
+        <div id="result-box" class="result-screen">
+            <p style="font-size: 1.2rem;">Transmisi Selesai! Skor Kamu:</p>
+            <div class="score-text" id="score-display">0</div>
+            <p id="result-feedback" style="margin-bottom: 30px; color: #ccc; line-height: 1.6;"></p>
+            
+            <button class="btn-action" onclick="restartQuiz()">ULANGI KUIS</button>
+
+            <div class="review-title">Review Hasil Evaluasi</div>
+            <div id="review-container">
+                </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-action" style="margin-top: 25px;">← KEMBALI KE BERANDA</a>
+
+    <script>
+        const quizData = [
+            {
+                question: "Planet manakah yang memiliki sistem cincin paling megah dan tersusun atas triliunan pecahan es serta batu?",
+                options: ["Mars", "Saturnus", "Merkurius", "Neptunus"],
+                answer: 1
+            },
+            {
+                question: "Planet apa yang dijuluki sebagai 'Si Ringan' karena massa jenisnya sangat kecil dan secara teori bisa mengapung di atas air?",
+                options: ["Jupiter", "Bumi", "Saturnus", "Uranus"],
+                answer: 2
+            },
+            {
+                question: "Planet terdekat dari Matahari yang tidak memiliki atmosfer serta berukuran paling kecil di tata surya adalah...",
+                options: ["Merkurius", "Venus", "Mars", "Uranus"],
+                answer: 0
+            },
+            {
+                question: "Mengapa planet Mars sering dijuluki sebagai Planet Merah?",
+                options: [
+                    "Karena dilapisi oleh lautan lava panas yang membara",
+                    "Karena memiliki kandungan zat besi oksida (karat) di permukaannya",
+                    "Karena permukaan daratannya dilapisi kristal ruby merah",
+                    "Karena atmosfernya dipenuhi gas neon menyala"
+                ],
+                answer: 1
+            },
+            {
+                question: "Fenomena astronomi apa yang disebutkan secara eksplisit dalam QS. Ali 'Imran ayat 190 sebagai tanda kebesaran Allah?",
+                options: [
+                    "Ledakan Supernova dan pembentukan lubang hitam (black hole)",
+                    "Penciptaan langit, bumi, serta silih bergantinya malam dan siang",
+                    "Tabrakan meteorit besar di permukaan planet",
+                    "Siklus penguapan air laut menjadi awan hujan"
+                ],
+                answer: 1
+            },
+            {
+                question: "Menurut QS. Al-Anbiya ayat 33, kata 'yasbahun' (سبحون) mengisyaratkan bahwa benda-benda langit...",
+                options: [
+                    "Diciptakan diam tidak bergerak di pusat galaksi",
+                    "Hanya berpindah tempat saat terjadi fenomena gerhana saja",
+                    "Bergerak acak tanpa arah sehingga rawan bertabrakan",
+                    "Beredar aktif mengalir/berenang pada garis orbitnya masing-masing"
+                ],
+                answer: 3
+            },
+            {
+                question: "Dalam QS. Al-Anbiya ayat 33, apa saja objek kosmik harian yang disebutkan bergerak pada garis edarnya?",
+                options: [
+                    "Malam, siang, matahari, dan bulan",
+                    "Bintang, meteor, dan galaksi",
+                    "Bumi, mars, dan jupiter",
+                    "Langit, bumi, dan lautan"
+                ],
+                answer: 0
+            },
+            {
+                question: "Planet manakah yang merupakan satu-satunya tempat di tata surya dengan kondisi atmosfer dan air cair ideal yang mendukung kehidupan makhluk hidup?",
+                options: ["Mars", "Bumi", "Venus", "Saturnus"],
+                answer: 1
+            },
+            {
+                question: "Karakteristik manusia bernama 'Ulul Albab' yang dijelaskan dalam QS. Ali 'Imran: 190-191 ditandai dengan...",
+                options: [
+                    "Mengabaikan keteraturan alam dan fokus pada teknologi materi",
+                    "Mengingat Allah sekaligus aktif memikirkan penciptaan langit dan bumi (pikir)",
+                    "Bekerja keras tanpa memikirkan atau memedulikan alam sekitar",
+                    "Mampu memprediksi masa depan seseorang lewat ramalan rasi bintang"
+                ],
+                answer: 1
+            },
+            {
+                question: "Planet terbesar di tata surya yang memiliki gravitasi sangat kuat sehingga berfungsi sebagai 'tameng pelindung' Bumi dari tabrakan asteroid luar adalah...",
+                options: ["Saturnus", "Uranus", "Jupiter", "Neptunus"],
+                answer: 2
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = []; // Menyimpan histori jawaban user
+
+        const qNumIndex = document.getElementById("q-num");
+        const qTextIndex = document.getElementById("q-text");
+        const optionsContainer = document.getElementById("options-container");
+        const quizBox = document.getElementById("quiz-box");
+        const resultBox = document.getElementById("result-box");
+        const scoreDisplay = document.getElementById("score-display");
+        const resultFeedback = document.getElementById("result-feedback");
+        const reviewContainer = document.getElementById("review-container");
+
+        function loadQuestion() {
+            const currentQuiz = quizData[currentQuestionIndex];
+            qNumIndex.innerText = `PERTANYAAN ${currentQuestionIndex + 1} DARI ${quizData.length}`;
+            qTextIndex.innerText = currentQuiz.question;
+            optionsContainer.innerHTML = "";
+            
+            currentQuiz.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.classList.add("option-btn");
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctAnswerIndex = quizData[currentQuestionIndex].answer;
+            
+            // Simpan indeks pilihan user
+            userAnswers.push(selectedIndex);
+            
+            if (selectedIndex === correctAnswerIndex) {
+                score += 10;
+            }
+            
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizBox.style.display = "none";
+            resultBox.style.display = "block";
+            scoreDisplay.innerText = score;
+
+            if (score === 100) {
+                resultFeedback.innerText = "Luar Biasa! Kamu menguasai data astronomi sekaligus makna spiritual di balik keteraturan tata surya dengan sempurna.";
+            } else if (score >= 70) {
+                resultFeedback.innerText = "Hebat! Pemahaman kosmik dan materi Q-DSS kamu sudah berada di atas rata-rata penjelajah lain.";
+            } else if (score >= 50) {
+                resultFeedback.innerText = "Cukup bagus. Kamu memahami dasarnya, tapi coba cek review di bawah untuk memperbaiki kesalahan.";
+            } else {
+                resultFeedback.innerText = "Transmisi lemah. Periksa ulasan soal di bawah untuk melihat bagian mana yang perlu kamu pelajari lagi!";
+            }
+
+            renderReview();
+        }
+
+        function renderReview() {
+            reviewContainer.innerHTML = ""; // Reset kontainer review
+
+            quizData.forEach((quiz, index) => {
+                const userAnsIndex = userAnswers[index];
+                const correctAnsIndex = quiz.answer;
+                const isCorrect = userAnsIndex === correctAnsIndex;
+
+                const reviewItem = document.createElement("div");
+                reviewItem.classList.add("review-item", isCorrect ? "correct" : "wrong");
+
+                let reviewContent = `
+                    <p class="review-q"><strong>Soal ${index + 1}:</strong> ${quiz.question}</p>
+                    <p class="review-ans">Kunci Jawaban: <span class="text-correct">${quiz.options[correctAnsIndex]}</span></p>
+                `;
+
+                // Jika jawaban user salah, tampilkan jawaban yang dia pilih sebelumnya
+                if (!isCorrect) {
+                    reviewContent += `
+                        <p class="review-ans">Jawaban Kamu: <span class="text-wrong">${quiz.options[userAnsIndex]} (Salah)</span></p>
+                    `;
+                } else {
+                    reviewContent += `
+                        <p class="review-ans"><span class="text-correct">✓ Jawabanmu Tepat</span></p>
+                    `;
+                }
+
+                reviewItem.innerHTML = reviewContent;
+                reviewContainer.appendChild(reviewItem);
+            });
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            quizBox.style.display = "block";
+            resultBox.style.display = "none";
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
